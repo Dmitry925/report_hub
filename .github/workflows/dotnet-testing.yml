@@ -11,8 +11,8 @@ jobs:
     runs-on: windows-latest  
 
     env:
-      Solution_Name: Exadel.ReportHub.sln
-      Test_Project_Path: Exadel.ReportHub.Tests\Exadel.ReportHub.Tests.csproj 
+      Solution_Name: Projects\Exadel.ReportHub\Exadel.ReportHub.sln
+      Test_Project_Path: Projects\Exadel.ReportHub\Exadel.ReportHub.Tests\Exadel.ReportHub.Tests.csproj 
  
     steps:
     - name: Checkout
