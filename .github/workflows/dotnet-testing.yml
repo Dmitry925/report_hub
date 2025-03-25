@@ -11,7 +11,8 @@ jobs:
     runs-on: windows-latest  
 
     env:
-      Test_Project_Path: Projects\Exadel.ReportHub\Exadel.ReportHub.Tests\Exadel.ReportHub.Tests.csproj 
+      Solution_Name: Projects\Exadel.ReportHub\Exadel.ReportHub.sln
+      Test_Project: Projects\Exadel.ReportHub\Exadel.ReportHub.Tests\Exadel.ReportHub.Tests.csproj 
  
     steps:
     - name: Checkout
@@ -23,10 +24,10 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Projects\Exadel.ReportHub\Exadel.ReportHub.sln
+      run: dotnet restore ${{ env.Solution_Name }}
 
     - name: Build
-      run: dotnet build
+      run: dotnet build ${{ env.Solution_Name }}
 
     - name: Test
-      run: dotnet test
+      run: dotnet test ${{ env.Test_Project }}
