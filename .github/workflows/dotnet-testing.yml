@@ -11,7 +11,6 @@ jobs:
     runs-on: windows-latest  
 
     env:
-      Solution_Name: Projects\Exadel.ReportHub\Exadel.ReportHub.sln
       Test_Project_Path: Projects\Exadel.ReportHub\Exadel.ReportHub.Tests\Exadel.ReportHub.Tests.csproj 
  
     steps:
@@ -24,7 +23,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Solution_Name
+      run: dotnet restore Exadel.ReportHub.sln
 
     - name: Build
       run: dotnet build
