@@ -23,7 +23,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore Exadel.ReportHub.sln
+      run: dotnet restore Projects\Exadel.ReportHub\Exadel.ReportHub.sln
 
     - name: Build
       run: dotnet build
