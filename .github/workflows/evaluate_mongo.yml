@@ -2,7 +2,7 @@ name: Evaluate Mongo
 
 on:
   push:
-    branches: [master]
+    branches: [ "master" ]
 
 jobs:
   mongo:
