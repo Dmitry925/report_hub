@@ -37,15 +37,3 @@ jobs:
 
     - name: Test
       run: dotnet test ${{ env.Test_Project }}
-
-    - name: Run Mongo Scripts 1/4
-      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\00_create_MigrationHistory.js
-      
-    - name: Run Mongo Scripts 2/4
-      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\01_create_Invoice.js
-      
-    - name: Run Mongo Scripts 3/4
-      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\02_initialize_identity_data.js
-      
-    - name: Run Mongo Scripts 4/4
-      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\03_create_User.js
