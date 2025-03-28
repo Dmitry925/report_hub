@@ -1,0 +1,50 @@
+name: Evaluate Mongo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  mongo:
+    runs-on: ubuntu-latest  
+
+    env:
+       Solution_Name: Projects\Exadel.ReportHub\Exadel.ReportHub.sln
+       Test_Project: Projects\Exadel.ReportHub\Exadel.ReportHub.Tests\Exadel.ReportHub.Tests.csproj
+       ReportHubService_ClientSecret: ${{ secrets.REPORT_HUB_SERVICE_CLIENT_SECRET }}
+       Mongo_Scripts_Path: Projects\Exadel.ReportHub\Exadel.ReportHub.Host\Deployment\Mongo
+       Db_Connection_Uri: mongodb+srv://cluster0.zpnu6.mongodb.net
+       Db_Name: ReportHub
+       Db_User_Name: ${{ secrets.DB_USER_NAME }}
+       Db_User_Password: ${{ secrets.DB_USER_PASSWORD }}
+       
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.Solution_Name }}
+
+    - name: Build
+      run: dotnet build ${{ env.Solution_Name }} --no-restore
+      
+    - name: Publish
+      run: dotnet publish ${{ env.Solution_Name }} --no-build
+      
+    - name: Run Mongo Scripts 1/4
+      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\00_create_MigrationHistory.js
+      
+    - name: Run Mongo Scripts 2/4
+      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\01_create_Invoice.js
+      
+    - name: Run Mongo Scripts 3/4
+      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\02_initialize_identity_data.js
+      
+    - name: Run Mongo Scripts 4/4
+      run: mongosh ${{ env.Db_Connection_Uri }}/${{ Db_Name }} --apiVersion 1 --username ${{ env.DB_USER_NAME }} --password ${{ env.DB_USER_PASSWORD }} --file ${{ env.Mongo_Scripts_Path }}\03_create_User.js
