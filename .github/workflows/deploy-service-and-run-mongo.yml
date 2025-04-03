@@ -31,9 +31,9 @@ jobs:
 
     - name: Update Render Environment variables
       run: |
-          curl -X PATCH \
-            -H "Authorization: Bearer ${{ env.Render_Api_Key }}" \
-            -H "Content-Type: application/json" \
+          curl -X PATCH 
+            -H "Authorization: Bearer ${{ env.Render_Api_Key }}" 
+            -H "Content-Type: application/json" 
             -d '{
               "envVars": [
                 {
@@ -41,7 +41,7 @@ jobs:
                   "value": "${{ env.Authority }}"
                 }
               ]
-            }' \
+            }' 
             "https://api.render.com/web/${{ env.Render_Service_Id }}"
 
     - name: Install MongoSh
