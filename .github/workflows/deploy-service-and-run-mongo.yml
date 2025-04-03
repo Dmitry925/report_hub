@@ -42,7 +42,7 @@ jobs:
                 }
               ]
             }' \
-            "https://api.render.com/v1/services/${{ env.Render_Service_Id }}"
+            "https://api.render.com/web/${{ env.Render_Service_Id }}"
 
     - name: Install MongoSh
       run: |
