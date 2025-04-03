@@ -28,17 +28,11 @@ jobs:
     - name: Update Env Vars
       run: |
         curl --request PUT \
-             --url https://api.render.com/v1/services/${{ env.Render_Service_Id}}/env-vars \
+             --url https://api.render.com/v1/services/${{ env.Render_Service_Id}}/env-vars/AUTHORITY \
              --header 'accept: application/json' \
              --header 'authorization: Bearer ${{ env.Render_Api_Key }}' \
              --header 'content-type: application/json' \
-             --data '
-        [
-          {
-            "key": "AUTHORITY",
-            "value": "${{ env.Authority }}"
-          }
-        ]'
+             --data '{"value": "${{ env.Authority }}"}'
       
     - name: Deploy
       run: curl -X POST "${{ env.Render_Deploy_Hook }}"
