@@ -1,8 +1,8 @@
 ﻿const scriptName = "02_initialize_identity_data";
-const version = NumberInt(1);
-const reportHubService_ClientSecret = process.env.ReportHubService_ClientSecret
+const version = NumberInt(2);
+const reportHubServiceClientSecret = process.env.ReportHubService_ClientSecret
 
-if (db.MigrationHistory.findOne({ scriptName, version })) {
+if (db.MigrationHistory.findOne({ ScriptName: scriptName, Version: version })) {
     print(`${scriptName} v${version} is already applied`);
     quit();
 }
@@ -85,15 +85,17 @@ db.Client.insertMany([
         ClientId: "report_hub_service",
         ClientName: "Report Hub Service",
         AllowedGrantTypes: ["client_credentials"],
-        ClientSecrets: [{ Value: "" }],
-        AllowedScopes: ["openid", "profile", "email", "role", "reporthub_api"]
+        RequireClientSecret: true,
+        ClientSecrets: [{ Value: reportHubServiceClientSecret }],
+        AllowedScopes: ["report_hub_api"]
     },
     {
         _id: UUID(),
-        ClientId: "user_owner",
-        ClientId: "Owner",
-        AllowedGrantTypes: ["client_credentials"],
-        AllowedScopes: ["openid", "profile", "email", "role", "reporthub_api"]
+        ClientId: "report_hub_resource_owner",
+        ClientName: "Report Hub Resource Owner",
+        RequireClientSecret: false,
+        AllowedGrantTypes: ["password"],
+        AllowedScopes: ["report_hub_api"]
     }
 ]);
 
