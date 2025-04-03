@@ -16,6 +16,8 @@ jobs:
        Db_User_Name: ${{ secrets.DB_USER_NAME }}
        Db_User_Password: ${{ secrets.DB_USER_PASSWORD }}
        Render_Deploy_Hook: ${{ secrets.RENDER_DEPLOY_HOOK }}
+       Render_Api_Key: ${{ secrets.RENDER_API_KEY }}
+       Render_Service_Id: ${{ secrets.RENDER_SERVICE_ID }}
        ReportHubService_ClientSecret: ${{ secrets.REPORT_HUB_SERVICE_CLIENT_SECRET }}
        Authority: ${{ vars.AUTHORITY }}
        
@@ -26,6 +28,21 @@ jobs:
     - name: Deploy
       run: |
           curl -X POST "${{ env.Render_Deploy_Hook }}"
+
+    - name: Update Render Environment variables
+      run: |
+          curl -X PATCH \
+            -H "Authorization: Bearer ${{ env.Render_Api_Key }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "envVars": [
+                {
+                  "key": "AUTHORITY",
+                  "value": "${{ env.Authority }}"
+                }
+              ]
+            }' \
+            "https://api.render.com/v1/services/${{ env.Render_Service_Id }}"
 
     - name: Install MongoSh
       run: |
