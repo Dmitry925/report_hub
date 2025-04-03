@@ -36,7 +36,7 @@ jobs:
         [
           {
             "key": "AUTHORITY",
-            "value": "https://report-hub-test.onrender.com"
+            "value": "${{ env.Authority }}"
           }
         ]'
       
