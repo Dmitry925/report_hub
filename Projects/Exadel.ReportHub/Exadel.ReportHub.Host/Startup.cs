@@ -2,6 +2,7 @@ using AutoMapper;
 using Exadel.ReportHub.Host.Infrastructure.Filters;
 using Exadel.ReportHub.Host.Registrations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace Exadel.ReportHub.Host;
@@ -72,6 +73,10 @@ public class Startup(IConfiguration configuration)
             {
                 options.Authority = configuration["Authority"];
                 options.Audience = scopeName;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = configuration["Authority"]
+                };
             });
         services.AddAuthorization();
 
