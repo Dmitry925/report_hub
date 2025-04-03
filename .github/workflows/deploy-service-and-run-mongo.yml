@@ -25,12 +25,21 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Install Render CLI
-      run: npm install -g @renderinc/cli
-
     - name: Update Env Vars
-      run: render env set AUTHORITY ${{ env.Authority }} --service ${{ env.Render_Service_Id }}
-    
+      run: |
+        curl --request PUT \
+             --url https://api.render.com/v1/services/${{ env.Render_Service_Id}}/env-vars \
+             --header 'accept: application/json' \
+             --header 'authorization: Bearer ${{ env.Render_Api_Key }}' \
+             --header 'content-type: application/json' \
+             --data '
+        [
+          {
+            "key": "AUTHORITY",
+            "value": "https://report-hub-test.onrender.com"
+          }
+        ]'
+      
     - name: Deploy
       run: curl -X POST "${{ env.Render_Deploy_Hook }}"
 
