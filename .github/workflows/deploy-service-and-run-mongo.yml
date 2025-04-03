@@ -24,15 +24,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-        
-    - name: Deploy
-      run: |
-          curl -X POST "${{ env.Render_Deploy_Hook }}"
 
-    - name: Update Render Environment variables
-      run: |
-          response=$(curl -X PATCH -H "Authorization: Bearer ${{ env.Render_Api_Key }}" -H "Content-Type: application/json" -d '{"envVars": [{"key": "AUTHORITY","value": "${{ env.Authority }}"}]}' "https://api.render.com/v1/services/${{ env.Render_Service_Id }}")
-          echo "API Response: $response"
+    - name: Install Render CLI
+      run: curl -fsSL https://render.com/downloads/render-cli/install.sh | bash
+
+    - name: Update Env Vars
+      run: render env set AUTHORITY ${{ env.Authority }} --service ${{ env.Render_Service_Id }}
+    
+    - name: Deploy
+      run: curl -X POST "${{ env.Render_Deploy_Hook }}"
 
     - name: Install MongoSh
       run: |
