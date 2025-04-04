@@ -12,7 +12,7 @@ public static class IdentityServerRegistrations
     {
         services.AddIdentityServer(options =>
         {
-            options.IssuerUri = configuration["Authority"];
+            //options.IssuerUri = configuration["Authority"];
         })
             .AddClientStore<IdentityClientStore>()
             .AddResourceStore<IdentityResourceStore>()
