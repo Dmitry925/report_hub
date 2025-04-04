@@ -31,6 +31,7 @@ public class UserService(ISender sender) : BaseService
         return FromResult(result);
     }
 
+    [Authorize]
     [HttpGet("active")]
     public async Task<IActionResult> GetActiveUsers()
     {
