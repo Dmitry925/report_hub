@@ -1,8 +1,8 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityModel;
+using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Validation;
 using Exadel.ReportHub.Common;
 using Exadel.ReportHub.RA.Abstract;
-using Duende.IdentityModel;
 
 namespace Exadel.ReportHub.Identity;
 

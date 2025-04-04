@@ -80,9 +80,10 @@ public class Startup(IConfiguration configuration)
                 options.Authority = configuration["Authority"];
                 options.Audience = scopeName;
             });
+
         services.AddAuthorization();
 
-        services.AddIdentity();
+        services.AddIdentity(configuration);
         services.AddMongo();
         services.AddMediatR();
         services.AddAutoMapper(typeof(Startup));
