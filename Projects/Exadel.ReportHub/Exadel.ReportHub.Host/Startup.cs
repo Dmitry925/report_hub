@@ -84,6 +84,14 @@ public class Startup(IConfiguration configuration)
 
         services.AddAuthorization();
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("IdentityServerCors", policy =>
+            {
+                policy.WithOrigins(configuration["Authority"]);
+            });
+        });
+
         services.AddIdentity(configuration);
         services.AddMongo();
         services.AddMediatR();
