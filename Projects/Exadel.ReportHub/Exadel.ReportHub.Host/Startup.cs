@@ -113,6 +113,16 @@ public class Startup(IConfiguration configuration)
 
         app.UseIdentityServer();
 
+        app.Use(async (context, next) =>
+        {
+            if (context.Request.Path.StartsWithSegments("/.well-known"))
+            {
+                Console.WriteLine($"Request to: {context.Request.Path}");
+            }
+
+            await next();
+        });
+
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();

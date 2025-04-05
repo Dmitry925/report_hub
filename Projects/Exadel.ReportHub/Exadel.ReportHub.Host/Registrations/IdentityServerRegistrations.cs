@@ -13,6 +13,11 @@ public static class IdentityServerRegistrations
         services.AddIdentityServer(options =>
         {
             options.IssuerUri = configuration["Authority"];
+
+            options.Events.RaiseErrorEvents = true;
+            options.Events.RaiseInformationEvents = true;
+            options.Events.RaiseFailureEvents = true;
+            options.Events.RaiseSuccessEvents = true;
         })
             .AddClientStore<IdentityClientStore>()
             .AddResourceStore<IdentityResourceStore>()
