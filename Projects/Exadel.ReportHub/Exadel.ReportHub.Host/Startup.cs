@@ -5,6 +5,8 @@ using Exadel.ReportHub.Host.Infrastructure.Filters;
 using Exadel.ReportHub.Host.Registrations;
 using Exadel.ReportHub.RA;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.OpenApi.Models;
 
 namespace Exadel.ReportHub.Host;
@@ -81,6 +83,10 @@ public class Startup(IConfiguration configuration)
                 options.Authority = configuration[authority];
                 options.Audience = scopeName;
                 options.TokenValidationParameters.ValidIssuer = configuration[authority];
+                options.TokenValidationParameters.ConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
+                    $"{options.Authority}/.well-known/openid-configuration",
+                    new OpenIdConnectConfigurationRetriever(),
+                    new HttpDocumentRetriever());
             });
 
         services.AddAuthorization();
