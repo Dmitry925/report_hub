@@ -79,6 +79,7 @@ public class Startup(IConfiguration configuration)
             {
                 options.Authority = configuration["Authority"];
                 options.Audience = scopeName;
+                options.TokenValidationParameters.ValidIssuer = configuration["Authority"];
             });
 
         services.AddAuthorization();
