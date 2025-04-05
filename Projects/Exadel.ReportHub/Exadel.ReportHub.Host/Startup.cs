@@ -15,6 +15,7 @@ public class Startup(IConfiguration configuration)
     {
         const string scopeName = "report_hub_api";
         const string scopeDescription = "Full access to Report Hub API";
+        const string authority = "Authority";
 
         services.AddControllers(options =>
         {
@@ -29,7 +30,7 @@ public class Startup(IConfiguration configuration)
         {
             const string apiVersion = "v1";
 
-            var tokenUrl = new Uri($"{configuration["Authority"]}/connect/token");
+            var tokenUrl = new Uri($"{configuration[authority]}/connect/token");
 
             c.SwaggerDoc(apiVersion, new OpenApiInfo { Title = "ReportHubAPI", Version = apiVersion });
             c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -77,9 +78,9 @@ public class Startup(IConfiguration configuration)
         })
             .AddJwtBearer(options =>
             {
-                options.Authority = configuration["Authority"];
+                options.Authority = configuration[authority];
                 options.Audience = scopeName;
-                options.TokenValidationParameters.ValidIssuer = configuration["Authority"];
+                options.TokenValidationParameters.ValidIssuer = configuration[authority];
             });
 
         services.AddAuthorization();
@@ -88,7 +89,7 @@ public class Startup(IConfiguration configuration)
         {
             options.AddPolicy("IdentityServerCors", policy =>
             {
-                policy.WithOrigins(configuration["Authority"])
+                policy.WithOrigins(configuration[authority])
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
