@@ -88,7 +88,9 @@ public class Startup(IConfiguration configuration)
         {
             options.AddPolicy("IdentityServerCors", policy =>
             {
-                policy.WithOrigins(configuration["Authority"]);
+                policy.WithOrigins(configuration["Authority"])
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
             });
         });
 
