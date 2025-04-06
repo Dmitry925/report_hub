@@ -1,8 +1,6 @@
-﻿using Duende.IdentityServer.Models;
-using Duende.IdentityServer.Services;
+﻿using Duende.IdentityServer.Services;
 using Exadel.ReportHub.Identity;
 using Exadel.ReportHub.Identity.Stores;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Exadel.ReportHub.Host.Registrations;
 
@@ -12,8 +10,6 @@ public static class IdentityServerRegistrations
     {
         services.AddIdentityServer(options =>
         {
-            options.IssuerUri = configuration["Authority"];
-
             options.Events.RaiseErrorEvents = true;
             options.Events.RaiseInformationEvents = true;
             options.Events.RaiseFailureEvents = true;
