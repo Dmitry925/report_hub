@@ -80,7 +80,7 @@ public class Startup(IConfiguration configuration)
             {
                 options.Authority = configuration[authority];
                 options.Audience = scopeName;
-                options.RequireHttpsMetadata = true;
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters.ValidIssuer = configuration[authority];
             });
 
