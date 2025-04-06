@@ -80,20 +80,11 @@ public class Startup(IConfiguration configuration)
             {
                 options.Authority = configuration[authority];
                 options.Audience = scopeName;
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters.ValidIssuer = configuration[authority];
             });
 
         services.AddAuthorization();
-
-        services.AddCors(options =>
-        {
-            options.AddPolicy("IdentityServerCors", policy =>
-            {
-                policy.WithOrigins(configuration[authority])
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-            });
-        });
 
         services.AddIdentity(configuration);
         services.AddMongo();
