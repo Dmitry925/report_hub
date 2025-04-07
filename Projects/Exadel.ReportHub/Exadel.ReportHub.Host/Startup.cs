@@ -72,10 +72,7 @@ public class Startup(IConfiguration configuration)
                 }
             });
         });
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
+        services.AddAuthentication()
             .AddJwtBearer(options =>
             {
                 options.Authority = configuration[authority];
