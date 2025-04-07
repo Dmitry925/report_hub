@@ -5,6 +5,7 @@ using Exadel.ReportHub.Host.Infrastructure.Filters;
 using Exadel.ReportHub.Host.Registrations;
 using Exadel.ReportHub.RA;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 
 namespace Exadel.ReportHub.Host;
@@ -80,7 +81,7 @@ public class Startup(IConfiguration configuration)
             {
                 options.Authority = configuration[authority];
                 options.Audience = scopeName;
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = true;
             });
 
         services.AddAuthorization();
@@ -100,6 +101,11 @@ public class Startup(IConfiguration configuration)
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Report Hub API"));
         app.UseRouting();
+
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedProto
+        });
 
         app.UseIdentityServer();
 
