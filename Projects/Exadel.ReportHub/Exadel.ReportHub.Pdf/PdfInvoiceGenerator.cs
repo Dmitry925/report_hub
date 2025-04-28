@@ -10,6 +10,9 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
 {
     public async Task<Stream> GenerateAsync(InvoiceModel invoice, CancellationToken cancellationToken)
     {
+
+        FontRepository.Sources.Add(new FolderFontSource("/usr/share/fonts"));
+
         var stream = new MemoryStream();
 
         var doc = new Document();
