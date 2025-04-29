@@ -61,7 +61,7 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
         page.Paragraphs.Add(Constants.Text.NewLine);
         var total = new TextFragment($"{Constants.Text.Label.Total}: {invoice.Amount} {invoice.CurrencyCode}")
         {
-            TextState = { FontSize = Constants.Text.TextStyle.FontSize, FontStyle = FontStyles.Bold },
+            //TextState = { FontSize = Constants.Text.TextStyle.FontSize, FontStyle = FontStyles.Bold },
             HorizontalAlignment = HorizontalAlignment.Left
         };
 
