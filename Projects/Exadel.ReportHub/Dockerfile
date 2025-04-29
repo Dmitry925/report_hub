@@ -26,6 +26,7 @@ WORKDIR /app
 
 RUN apt-get update -y
 RUN apt-get install -y libgdiplus --no-install-recommends
+RUN echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
 RUN echo "deb http://deb.debian.org/debian bookworm contrib non-free" > /etc/apt/sources.list.d/contrib.list
 RUN apt update && apt upgrade -y
 RUN apt-get install -y ttf-mscorefonts-installer
