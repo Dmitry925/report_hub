@@ -17,7 +17,8 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
 
         var font = FontRepository.FindFont("Liberation Sans");
         logger.LogInformation("font: {FontName}, Embedded: {Embedded}", font.FontName, font.IsEmbedded);
-        font.IsEmbedded = true;
+
+        // font.IsEmbedded = true;
 
         var doc = new Document();
         var page = doc.Pages.Add();
@@ -37,7 +38,8 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         // page.Paragraphs.Add(title);
         // logger.LogInformation("Created title.");
 
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}"));
+        page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}"));
+
         // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.IssueDate}: {invoice.IssueDate}"));
         // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.DueDate}: {invoice.DueDate}"));
         // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.ClientName}: {invoice.ClientName}"));
