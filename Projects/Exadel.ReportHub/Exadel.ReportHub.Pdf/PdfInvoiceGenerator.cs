@@ -18,7 +18,7 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
 
         var title = new TextFragment($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}")
         {
-            TextState = { FontSize = Constants.Text.TextStyle.FontSizeTitle, FontStyle = FontStyles.Bold },
+            //TextState = { FontSize = Constants.Text.TextStyle.FontSizeTitle, FontStyle = FontStyles.Bold },
             HorizontalAlignment = HorizontalAlignment.Center
         };
         page.Paragraphs.Add(title);
