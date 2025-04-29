@@ -13,6 +13,8 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
     {
         var stream = new MemoryStream();
         logger.LogInformation("Created stream.");
+        var helveticaFont = FontRepository.FindFont("Helvetica");
+        logger.LogInformation("Helvetica font: {FontName}, Embedded: {Embedded}", helveticaFont.FontName, helveticaFont.IsEmbedded);
 
         var doc = new Document();
         var page = doc.Pages.Add();
@@ -21,7 +23,12 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
 
         var title = new TextFragment($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}")
         {
-            TextState = { FontSize = Constants.Text.TextStyle.FontSizeTitle, FontStyle = FontStyles.Bold },
+            TextState =
+            {
+                Font = helveticaFont,
+                FontSize = Constants.Text.TextStyle.FontSizeTitle,
+                FontStyle = FontStyles.Bold
+            },
             HorizontalAlignment = HorizontalAlignment.Center
         };
         page.Paragraphs.Add(title);
@@ -68,7 +75,12 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         page.Paragraphs.Add(Constants.Text.NewLine);
         var total = new TextFragment($"{Constants.Text.Label.Total}: {invoice.Amount} {invoice.CurrencyCode}")
         {
-            TextState = { FontSize = Constants.Text.TextStyle.FontSize, FontStyle = FontStyles.Bold },
+            TextState =
+            {
+                Font = helveticaFont,
+                FontSize = Constants.Text.TextStyle.FontSize,
+                FontStyle = FontStyles.Bold
+            },
             HorizontalAlignment = HorizontalAlignment.Left
         };
 
