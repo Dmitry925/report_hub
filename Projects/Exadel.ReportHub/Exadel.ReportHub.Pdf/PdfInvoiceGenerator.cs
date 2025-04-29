@@ -18,11 +18,11 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         var font = FontRepository.FindFont("Liberation Sans");
         logger.LogInformation("font: {FontName}, Embedded: {Embedded}", font.FontName, font.IsEmbedded);
 
-        // font.IsEmbedded = true;
-
         var doc = new Document();
         var page = doc.Pages.Add();
         page.PageInfo.Margin = new MarginInfo(Constants.MarginInfo.Page.Left, Constants.MarginInfo.Page.Bottom, Constants.MarginInfo.Page.Right, Constants.MarginInfo.Page.Top);
+        var builder = new TextBuilder(page);
+
         logger.LogInformation("Created page.");
 
         var title = new TextFragment($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}")
@@ -37,7 +37,7 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
 
             // HorizontalAlignment = HorizontalAlignment.Center
         };
-        page.Paragraphs.Add(title);
+        builder.AppendText(title);
         logger.LogInformation("Created title.");
 
         // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}"));
