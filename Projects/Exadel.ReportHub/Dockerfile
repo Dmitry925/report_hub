@@ -26,7 +26,8 @@ WORKDIR /app
 
 RUN apt-get update -y
 RUN apt-get install -y libgdiplus
-RUN ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
+RUN echo "deb http://deb.debian.org/debian bookworm contrib non-free" > /etc/apt/sources.list.d/contrib.list
+RUN apt update && apt upgrade -y
 RUN apt-get install -y ttf-mscorefonts-installer
 
 COPY --from=build /app/publish .
