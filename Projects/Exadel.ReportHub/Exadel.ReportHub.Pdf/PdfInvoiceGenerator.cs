@@ -13,13 +13,9 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
     {
         var stream = new MemoryStream();
         logger.LogInformation("Created stream.");
+        FontRepository.Sources.Add(new FolderFontSource("/usr/share/fonts/truetype"));
 
-        if (OperatingSystem.IsLinux())
-        {
-            FontRepository.Sources.Add(new FolderFontSource("/usr/share/fonts/truetype/liberation"));
-        }
-
-        var font = FontRepository.FindFont("Liberation Sans");
+        var font = FontRepository.FindFont("Arial");
         logger.LogInformation("font: {FontName}, Embedded: {Embedded}", font.FontName, font.IsEmbedded);
         font.IsEmbedded = true;
 
