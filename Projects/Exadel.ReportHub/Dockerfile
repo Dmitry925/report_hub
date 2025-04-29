@@ -24,11 +24,10 @@ RUN dotnet publish "Exadel.ReportHub.Host/Exadel.ReportHub.Host.csproj" -c Relea
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y libgdiplus
-RUN apt install software-properties-common -y
-RUN echo "deb http://deb.debian.org/debian bookworm contrib non-free" > /etc/apt/sources.list.d/contrib.list
-RUN apt update && apt upgrade -y
-RUN apt install ttf-mscorefonts-installer -y
+RUN sudo apt-get update
+RUN apt-get install -y libgdiplus
+RUN ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
+RUN sudo apt-get install -y ttf-mscorefonts-installer
 
 COPY --from=build /app/publish .
 
