@@ -8,55 +8,44 @@ namespace Exadel.ReportHub.Pdf;
 
 public class PdfInvoiceGenerator : IPdfInvoiceGenerator
 {
-    public async Task<Stream> GenerateAsync(InvoiceModel invoice, CancellationToken cancellationToken)
+    public Stream Generate(InvoiceModel invoice)
     {
         var stream = new MemoryStream();
 
         using var document = SKDocument.CreatePdf(stream);
         var canvas = document.BeginPage(Constants.Size.Page.Width, Constants.Size.Page.Height);
         canvas.Clear(SKColors.White);
+        var font = new SKFont(SKTypeface.FromFamilyName(Constants.Text.TextStyle.Font), Constants.Text.TextStyle.FontSize);
+        var fontTitle = new SKFont(SKTypeface.FromFamilyName(Constants.Text.TextStyle.Font, SKFontStyle.Bold), Constants.Text.TextStyle.FontSizeTitle);
 
-        using var paint = new SKPaint
+        var paint = new SKPaint
         {
             IsAntialias = true,
             Color = SKColors.Black,
-            Typeface = SKTypeface.FromFamilyName(Constants.Text.TextStyle.Font)
         };
 
         float y = Constants.MarginInfo.Page.Top;
 
-        paint.TextSize = Constants.Text.TextStyle.FontSizeTitle;
-        paint.Typeface = SKTypeface.FromFamilyName(Constants.Text.TextStyle.Font, SKFontStyle.Bold);
-        paint.TextAlign = SKTextAlign.Center;
+        DrawTextLine($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}", Constants.Size.Page.XCenter, ref y, SKTextAlign.Center, fontTitle, canvas, paint);
 
-        DrawTextLine($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}", Constants.Size.Page.XCenter, ref y, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, font, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.IssueDate}: {invoice.IssueDate}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, font, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.DueDate}: {invoice.DueDate}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, font, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.ClientName}: {invoice.ClientName}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, font, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.CustomerName}: {invoice.CustomerName}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, font, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.ClientBankAccountNumber}: {invoice.ClientBankAccountNumber}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, font, canvas, paint);
 
-        paint.TextSize = Constants.Text.TextStyle.FontSize;
-        paint.Typeface = SKTypeface.FromFamilyName(Constants.Text.TextStyle.Font);
-        paint.TextAlign = SKTextAlign.Left;
+        y += font.Spacing;
 
-        DrawTextLine($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
-        DrawTextLine($"{Constants.Text.Label.IssueDate}: {invoice.IssueDate}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
-        DrawTextLine($"{Constants.Text.Label.DueDate}: {invoice.DueDate}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
-        DrawTextLine($"{Constants.Text.Label.ClientName}: {invoice.ClientName}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
-        DrawTextLine($"{Constants.Text.Label.CustomerName}: {invoice.CustomerName}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
-        DrawTextLine($"{Constants.Text.Label.ClientBankAccountNumber}: {invoice.ClientBankAccountNumber}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
-
-        y += paint.FontSpacing;
-
-        DrawTableHeader(ref y, canvas, paint);
+        DrawTableHeader(ref y, SKTextAlign.Left, font, canvas, paint);
 
         foreach (var item in invoice.Items)
         {
-            DrawTableRow(item, ref y, canvas, paint, document);
+            DrawTableRow(item, ref y, SKTextAlign.Left, font, ref canvas, paint, document);
         }
 
-        paint.TextSize = Constants.Text.TextStyle.FontSizeTitle;
-        paint.Typeface = SKTypeface.FromFamilyName(Constants.Text.TextStyle.Font, SKFontStyle.Bold);
-        paint.TextAlign = SKTextAlign.Left;
-
-        y += paint.FontSpacing;
-        y += paint.FontSpacing;
+        y += fontTitle.Spacing;
+        y += fontTitle.Spacing;
 
         if (y > Constants.Size.Page.Height - Constants.MarginInfo.Page.Bottom)
         {
@@ -66,7 +55,7 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
             y = Constants.MarginInfo.Page.Top;
         }
 
-        DrawTextLine($"{Constants.Text.Label.Total}: {invoice.Amount} {invoice.CurrencyCode}", Constants.MarginInfo.Page.Left, ref y, canvas, paint);
+        DrawTextLine($"{Constants.Text.Label.Total}: {invoice.Amount} {invoice.CurrencyCode}", Constants.MarginInfo.Page.Left, ref y, SKTextAlign.Left, fontTitle, canvas, paint);
 
         document.EndPage();
         document.Close();
@@ -76,14 +65,14 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
         return stream;
     }
 
-    private void DrawTextLine(string text, float x, ref float y, SKCanvas canvas, SKPaint paint)
+    private void DrawTextLine(string text, float x, ref float y, SKTextAlign align, SKFont font, SKCanvas canvas, SKPaint paint)
     {
-        canvas.DrawText(text, x, y, paint);
+        canvas.DrawText(text, x, y, align, font, paint);
 
-        y += paint.FontSpacing;
+        y += font.Spacing;
     }
 
-    private void DrawTableHeader(ref float y, SKCanvas canvas, SKPaint paint)
+    private void DrawTableHeader(ref float y, SKTextAlign align, SKFont font, SKCanvas canvas, SKPaint paint)
     {
         var borderPaint = new SKPaint
         {
@@ -93,24 +82,24 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
         };
 
         var x = Constants.MarginInfo.Page.Left;
-        var metrics = paint.FontMetrics;
+        var metrics = font.Metrics;
         var height = metrics.Descent - metrics.Ascent + Constants.MarginInfo.InvoiceTable.Top;
 
         canvas.DrawRect(x, y, Constants.Size.Table.NameWidth, height, borderPaint);
-        canvas.DrawText(Constants.Text.Header.Name, x + Constants.MarginInfo.InvoiceTable.Left, y + height - Constants.MarginInfo.InvoiceTable.Bottom, paint);
+        canvas.DrawText(Constants.Text.Header.Name, x + Constants.MarginInfo.InvoiceTable.Left, y + height - Constants.MarginInfo.InvoiceTable.Bottom, align, font, paint);
 
         x += Constants.Size.Table.NameWidth;
         canvas.DrawRect(x, y, Constants.Size.Table.DescriptionWidth, height, borderPaint);
-        canvas.DrawText(Constants.Text.Header.Description, x + Constants.MarginInfo.InvoiceTable.Left, y + height - Constants.MarginInfo.InvoiceTable.Bottom, paint);
+        canvas.DrawText(Constants.Text.Header.Description, x + Constants.MarginInfo.InvoiceTable.Left, y + height - Constants.MarginInfo.InvoiceTable.Bottom, align, font, paint);
 
         x += Constants.Size.Table.DescriptionWidth;
         canvas.DrawRect(x, y, Constants.Size.Table.PriceWidth, height, borderPaint);
-        canvas.DrawText(Constants.Text.Header.Price, x + Constants.MarginInfo.InvoiceTable.Left, y + height - Constants.MarginInfo.InvoiceTable.Bottom, paint);
+        canvas.DrawText(Constants.Text.Header.Price, x + Constants.MarginInfo.InvoiceTable.Left, y + height - Constants.MarginInfo.InvoiceTable.Bottom, align, font, paint);
 
         y += height;
     }
 
-    private void DrawTableRow(ItemDTO item, ref float y, SKCanvas canvas, SKPaint paint, SKDocument document)
+    private void DrawTableRow(ItemDTO item, ref float y, SKTextAlign align, SKFont font, ref SKCanvas canvas, SKPaint paint, SKDocument document)
     {
         var borderPaint = new SKPaint
         {
@@ -120,8 +109,8 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
         };
 
         var x = Constants.MarginInfo.Page.Left;
-        var descriptionLines = WrapText(item.Description, Constants.Size.Table.DescriptionWidth - Constants.MarginInfo.InvoiceTable.Left - Constants.MarginInfo.InvoiceTable.Right, paint);
-        var metrics = paint.FontMetrics;
+        var descriptionLines = WrapText(item.Description, Constants.Size.Table.DescriptionWidth - Constants.MarginInfo.InvoiceTable.Left - Constants.MarginInfo.InvoiceTable.Right, font);
+        var metrics = font.Metrics;
         var lineHeight = metrics.Descent - metrics.Ascent;
         var height = (descriptionLines.Count * lineHeight) + Constants.MarginInfo.InvoiceTable.Top;
         var cellYCenter = (height + lineHeight - Constants.MarginInfo.InvoiceTable.Bottom) / 2;
@@ -132,27 +121,27 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
             canvas = document.BeginPage(Constants.Size.Page.Width, Constants.Size.Page.Height);
             canvas.Clear(SKColors.White);
             y = Constants.MarginInfo.Page.Top;
-            DrawTableHeader(ref y, canvas, paint);
+            DrawTableHeader(ref y, align, font, canvas, paint);
         }
 
         canvas.DrawRect(x, y, Constants.Size.Table.NameWidth, height, borderPaint);
-        canvas.DrawText(item.Name, x + Constants.MarginInfo.InvoiceTable.Left, y + cellYCenter, paint);
+        canvas.DrawText(item.Name, x + Constants.MarginInfo.InvoiceTable.Left, y + cellYCenter, align, font, paint);
 
         x += Constants.Size.Table.NameWidth;
         canvas.DrawRect(x, y, Constants.Size.Table.DescriptionWidth, height, borderPaint);
         for (int i = 0; i < descriptionLines.Count; i++)
         {
-            canvas.DrawText(descriptionLines[i], x + Constants.MarginInfo.InvoiceTable.Left, y + (lineHeight * (i + 1)), paint);
+            canvas.DrawText(descriptionLines[i], x + Constants.MarginInfo.InvoiceTable.Left, y + (lineHeight * (i + 1)), align, font, paint);
         }
 
         x += Constants.Size.Table.DescriptionWidth;
         canvas.DrawRect(x, y, Constants.Size.Table.PriceWidth, height, borderPaint);
-        canvas.DrawText($"{item.Price} {item.CurrencyCode}", x + Constants.MarginInfo.InvoiceTable.Left, y + cellYCenter, paint);
+        canvas.DrawText($"{item.Price} {item.CurrencyCode}", x + Constants.MarginInfo.InvoiceTable.Left, y + cellYCenter, align, font, paint);
 
         y += height;
     }
 
-    private List<string> WrapText(string text, float maxWidth, SKPaint paint)
+    private List<string> WrapText(string text, float maxWidth, SKFont font)
     {
         var result = new List<string>();
         var words = text.Split(' ');
@@ -160,7 +149,7 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
 
         foreach (var word in words)
         {
-            if (paint.MeasureText($"{currentLine} {word}") >= maxWidth)
+            if (font.MeasureText($"{currentLine} {word}") >= maxWidth)
             {
                 result.Add(currentLine.ToString());
                 currentLine.Clear();
