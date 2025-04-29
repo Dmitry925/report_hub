@@ -24,18 +24,18 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         page.PageInfo.Margin = new MarginInfo(Constants.MarginInfo.Page.Left, Constants.MarginInfo.Page.Bottom, Constants.MarginInfo.Page.Right, Constants.MarginInfo.Page.Top);
         logger.LogInformation("Created page.");
 
-        var title = new TextFragment($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}")
-        {
-            TextState =
-            {
-                Font = font,
-                FontSize = Constants.Text.TextStyle.FontSizeTitle,
-                FontStyle = FontStyles.Bold
-            },
-            HorizontalAlignment = HorizontalAlignment.Center
-        };
-        page.Paragraphs.Add(title);
-        logger.LogInformation("Created title.");
+        // var title = new TextFragment($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}")
+        // {
+        //    TextState =
+        //    {
+        //        Font = font,
+        //        FontSize = Constants.Text.TextStyle.FontSizeTitle,
+        //        FontStyle = FontStyles.Bold
+        //    },
+        //    HorizontalAlignment = HorizontalAlignment.Center
+        // };
+        // page.Paragraphs.Add(title);
+        // logger.LogInformation("Created title.");
 
         // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}"));
         // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.IssueDate}: {invoice.IssueDate}"));
