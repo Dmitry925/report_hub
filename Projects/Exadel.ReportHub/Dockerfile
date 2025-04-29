@@ -25,8 +25,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get install -y libgdiplus libc6-dev fonts-liberation && \
-    ln -s /usr/lib/libgdiplus.so /usr/lib/gdiplus.dll
+    apt-get install -y fonts-liberation
 
 COPY --from=build /app/publish .
 
