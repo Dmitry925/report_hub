@@ -13,8 +13,15 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
     {
         var stream = new MemoryStream();
         logger.LogInformation("Created stream.");
-        var helveticaFont = FontRepository.FindFont("Helvetica");
-        logger.LogInformation("Helvetica font: {FontName}, Embedded: {Embedded}", helveticaFont.FontName, helveticaFont.IsEmbedded);
+
+        if (OperatingSystem.IsLinux())
+        {
+            FontRepository.Sources.Add(new FolderFontSource("/usr/share/fonts/truetype/liberation"));
+        }
+
+        var font = FontRepository.FindFont("Liberation Sans");
+        logger.LogInformation("font: {FontName}, Embedded: {Embedded}", font.FontName, font.IsEmbedded);
+        font.IsEmbedded = true;
 
         var doc = new Document();
         var page = doc.Pages.Add();
@@ -25,7 +32,7 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         {
             TextState =
             {
-                Font = helveticaFont,
+                Font = font,
                 FontSize = Constants.Text.TextStyle.FontSizeTitle,
                 FontStyle = FontStyles.Bold
             },
@@ -77,7 +84,7 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         {
             TextState =
             {
-                Font = helveticaFont,
+                Font = font,
                 FontSize = Constants.Text.TextStyle.FontSize,
                 FontStyle = FontStyles.Bold
             },
