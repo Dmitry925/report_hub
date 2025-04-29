@@ -35,6 +35,5 @@ COPY --from=build /app/publish .
 ENV ASPNETCORE_ENVIRONMENT=Production
 ENV PORT=5000
 ENV ASPNETCORE_URLS=http://+:${PORT}
-ENV System_Drawing_EnableUnixSupport=true
 
 ENTRYPOINT ["dotnet", "Exadel.ReportHub.Host.dll"]
