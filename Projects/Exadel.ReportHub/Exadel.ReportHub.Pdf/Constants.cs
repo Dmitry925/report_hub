@@ -25,7 +25,7 @@ public static class Constants
 
         public static class TextStyle
         {
-            public const string Font = "Arial";
+            public const string Font = "Liberation Sans";
             public const int FontSizeTitle = 18;
             public const int FontSize = 10;
         }
