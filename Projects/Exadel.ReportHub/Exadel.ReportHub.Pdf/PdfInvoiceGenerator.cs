@@ -13,10 +13,11 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
     {
         var stream = new MemoryStream();
         logger.LogInformation("Created stream.");
-        FontRepository.Sources.Add(new FolderFontSource("/usr/share/fonts/truetype"));
 
-        var font = FontRepository.FindFont("Liberation Sans");
-        logger.LogInformation("font: {FontName}, Embedded: {Embedded}", font.FontName, font.IsEmbedded);
+        // FontRepository.Sources.Add(new FolderFontSource("/usr/share/fonts/truetype"));
+
+        // var font = FontRepository.FindFont("Liberation Sans");
+        // logger.LogInformation("font: {FontName}, Embedded: {Embedded}", font.FontName, font.IsEmbedded);
 
         var doc = new Document();
         var page = doc.Pages.Add();
@@ -29,25 +30,23 @@ public class PdfInvoiceGenerator(ILogger<PdfInvoiceGenerator> logger) : IPdfInvo
         {
             TextState =
             {
-                Font = font,
-
-                // FontSize = Constants.Text.TextStyle.FontSizeTitle,
-                // FontStyle = FontStyles.Bold
+                // Font = font,
+                FontSize = Constants.Text.TextStyle.FontSizeTitle,
+                FontStyle = FontStyles.Bold
             },
-
-            // HorizontalAlignment = HorizontalAlignment.Center
+            HorizontalAlignment = HorizontalAlignment.Center
         };
         builder.AppendText(title);
         logger.LogInformation("Created title.");
 
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}"));
+        builder.AppendText(new TextFragment($"{Constants.Text.Label.InvoiceNumber}: {invoice.InvoiceNumber}"));
 
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.IssueDate}: {invoice.IssueDate}"));
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.DueDate}: {invoice.DueDate}"));
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.ClientName}: {invoice.ClientName}"));
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.CustomerName}: {invoice.CustomerName}"));
-        // page.Paragraphs.Add(new TextFragment($"{Constants.Text.Label.ClientBankAccountNumber}: {invoice.ClientBankAccountNumber}"));
-        // logger.LogInformation("Created invoice info.");
+        builder.AppendText(new TextFragment($"{Constants.Text.Label.IssueDate}: {invoice.IssueDate}"));
+        builder.AppendText(new TextFragment($"{Constants.Text.Label.DueDate}: {invoice.DueDate}"));
+        builder.AppendText(new TextFragment($"{Constants.Text.Label.ClientName}: {invoice.ClientName}"));
+        builder.AppendText(new TextFragment($"{Constants.Text.Label.CustomerName}: {invoice.CustomerName}"));
+        builder.AppendText(new TextFragment($"{Constants.Text.Label.ClientBankAccountNumber}: {invoice.ClientBankAccountNumber}"));
+        logger.LogInformation("Created invoice info.");
 
         // page.Paragraphs.Add(Constants.Text.NewLine);
 
