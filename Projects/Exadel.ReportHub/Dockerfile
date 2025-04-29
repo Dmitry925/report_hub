@@ -25,10 +25,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
 RUN apt-get update -y
-RUN apt-get install -y libgdiplus
+RUN apt-get install -y libgdiplus --no-install-recommends
 RUN echo "deb http://deb.debian.org/debian bookworm contrib non-free" > /etc/apt/sources.list.d/contrib.list
 RUN apt update && apt upgrade -y
 RUN apt-get install -y ttf-mscorefonts-installer
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /app/publish .
 
