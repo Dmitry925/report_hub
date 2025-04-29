@@ -18,7 +18,7 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
 
         var title = new TextFragment($"{Constants.Text.Label.Invoice}: {invoice.PaymentStatus}")
         {
-            TextState = { FontSize = Constants.Text.TextStyle.FontSizeTitle, FontStyle = FontStyles.Bold },
+            //TextState = { FontSize = Constants.Text.TextStyle.FontSizeTitle, FontStyle = FontStyles.Bold },
             HorizontalAlignment = HorizontalAlignment.Center
         };
         page.Paragraphs.Add(title);
@@ -61,7 +61,7 @@ public class PdfInvoiceGenerator : IPdfInvoiceGenerator
         page.Paragraphs.Add(Constants.Text.NewLine);
         var total = new TextFragment($"{Constants.Text.Label.Total}: {invoice.Amount} {invoice.CurrencyCode}")
         {
-            TextState = { FontSize = Constants.Text.TextStyle.FontSize, FontStyle = FontStyles.Bold },
+            //TextState = { FontSize = Constants.Text.TextStyle.FontSize, FontStyle = FontStyles.Bold },
             HorizontalAlignment = HorizontalAlignment.Left
         };
 
