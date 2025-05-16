@@ -17,6 +17,9 @@ RUN dotnet restore "Exadel.ReportHub.Host/Exadel.ReportHub.Host.csproj"
 
 COPY ["Projects/Exadel.ReportHub/", "./"]
 
+RUN dotnet publish "Exadel.ReportHub.Blazor/Exadel.ReportHub.Blazor.csproj" -c Release -o /app/client
+RUN cp -r /app/client/wwwroot Exadel.ReportHub.Host/wwwroot
+
 
 RUN dotnet publish "Exadel.ReportHub.Host/Exadel.ReportHub.Host.csproj" -c Release -o /app/publish
 
