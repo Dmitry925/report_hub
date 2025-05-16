@@ -20,7 +20,7 @@
 		<Content Update="appsettings.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>
-		<Content Update="appsettings.Development.json" Condition="'$(Configuration)'=='Development'">
+		<Content Update="appsettings.Development.json">
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</Content>
 	</ItemGroup>
