@@ -24,3 +24,9 @@ jobs:
       with:
         branch: gh-pages
         folder: release/wwwroot
+
+    - name: Change base-tag in index.html
+      run: sed -i 's/<base href="\/" \/>/<base href="\/dmitry925.github.io\/" \/>/g' release/wwwroot/index.html
+
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
