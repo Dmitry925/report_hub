@@ -1,0 +1,26 @@
+name: Deploy Blazor to GitHub Pages
+
+on:
+  push:
+    branches: [ "master" ]
+    
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        include-prerelease: true
+        
+    - name: Publish Blazor Project
+      run: dotnet publish Projects/Exadel.ReportHub/Exadel.ReportHub.Blazor/Exadel.ReportHub.Blazor.csproj -c Release --output release --nologo
+
+    - name: Uploading files to gh-pages branch
+      uses: JamesIves/github-pages-deploy-action@4.1.4
+      with:
+        branch: gh-pages
+        folder: release/wwwroot
