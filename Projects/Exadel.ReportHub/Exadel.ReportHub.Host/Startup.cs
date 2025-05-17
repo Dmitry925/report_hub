@@ -139,7 +139,6 @@ public class Startup(IConfiguration configuration)
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-
             endpoints.MapFallbackToFile("index.html");
         });
 
