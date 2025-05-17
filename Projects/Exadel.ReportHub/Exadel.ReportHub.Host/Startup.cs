@@ -118,6 +118,9 @@ public class Startup(IConfiguration configuration)
     {
         mapper.ConfigurationProvider.AssertConfigurationIsValid();
 
+        app.UseBlazorFrameworkFiles();
+        app.UseStaticFiles();
+
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Report Hub API"));
         app.UseRouting();
@@ -126,9 +129,6 @@ public class Startup(IConfiguration configuration)
         {
             ForwardedHeaders = ForwardedHeaders.XForwardedProto
         });
-
-        app.UseBlazorFrameworkFiles();
-        app.UseStaticFiles();
 
         app.UseIdentityServer();
 
