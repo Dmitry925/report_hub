@@ -1,4 +1,4 @@
-/* _content/Exadel.ReportHub.Blazor/Layout/MainLayout.razor.rz.scp.css */
+/* /Layout/MainLayout.razor.rz.scp.css */
 .page[b-g3acnernc1] {
     position: relative;
     display: flex;
@@ -76,7 +76,7 @@ main[b-g3acnernc1] {
         padding-right: 1.5rem !important;
     }
 }
-/* _content/Exadel.ReportHub.Blazor/Layout/NavMenu.razor.rz.scp.css */
+/* /Layout/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-58t7rrxwc4] {
     background-color: rgba(255, 255, 255, 0.1);
 }
