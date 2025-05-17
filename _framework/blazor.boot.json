@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Exadel.ReportHub.BlazorAssembly",
   "resources": {
-    "hash": "sha256-OjUd5tyKVR6UTzcmPYZgNIdgGAZZKBgaAVFRc5Whnc4=",
+    "hash": "sha256-YTEpqRq8/99niBOr6Cg/YyafWnAkyPAYH15ZBnNoX14=",
     "jsModuleNative": {
       "dotnet.native.8.0.16.khcj4p6y0x.js": "sha256-RiGT44TFZmHOY+Oqvb8o8r+BJVWex6+dPxFxrOiWvFY="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "Exadel.ReportHub.BlazorAssembly.wasm": "sha256-CKUgB7aJBI4F5TCN1O7M+HeJMGxFLd6+6o99I4Lpico=",
+      "Exadel.ReportHub.BlazorAssembly.wasm": "sha256-7yCYC0Gne7HpUo8eX2JA7uMxYwAF19yaorMDE2VduXI=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-y8u4XfIYnkRrUArCnA8PsHxL3jtW0S58UnA+Ne66BHs=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-wNzOc1Fp3eB6cbo3Y/KMbXTmgWox24TJkIlwPnj4Nzs=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-/p7BBPegUqb8uhn8pZH2NBj3yPWbNnXyBElclaB5vik=",
