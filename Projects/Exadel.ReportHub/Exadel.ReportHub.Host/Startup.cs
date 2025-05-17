@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using Duende.IdentityModel;
+//using Exadel.ReportHub.BlazorAssembly.Components;
 using Exadel.ReportHub.Host.Infrastructure.Filters;
 using Exadel.ReportHub.Host.Registrations;
 using Exadel.ReportHub.SDK.Abstract;
@@ -112,8 +113,8 @@ public class Startup(IConfiguration configuration)
             .AddManagers()
             .AddExport();
 
-        // services.AddRazorComponents()
-        //   .AddInteractiveServerComponents();
+        //services.AddRazorComponents()
+        //  .AddInteractiveServerComponents();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
@@ -132,7 +133,7 @@ public class Startup(IConfiguration configuration)
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
-        // app.UseAntiforgery();
+        //app.UseAntiforgery();
 
         app.UseIdentityServer();
 
@@ -144,8 +145,10 @@ public class Startup(IConfiguration configuration)
         {
             endpoints.MapControllers();
 
-            // endpoints.MapRazorComponents<App>()
-            //   .AddInteractiveServerRenderMode();
+            endpoints.MapFallbackToFile("index.html");
+
+            //endpoints.MapRazorComponents<App>()
+            //  .AddInteractiveServerRenderMode();
         });
 
         app.UseHangfireDashboard();
