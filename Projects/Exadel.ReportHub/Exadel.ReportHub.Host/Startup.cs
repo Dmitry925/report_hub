@@ -3,7 +3,8 @@ using System.Security.Claims;
 using System.Text.Json.Serialization;
 using AutoMapper;
 using Duende.IdentityModel;
-//using Exadel.ReportHub.BlazorAssembly.Components;
+
+// using Exadel.ReportHub.BlazorAssembly.Components;
 using Exadel.ReportHub.Host.Infrastructure.Filters;
 using Exadel.ReportHub.Host.Registrations;
 using Exadel.ReportHub.SDK.Abstract;
@@ -113,7 +114,7 @@ public class Startup(IConfiguration configuration)
             .AddManagers()
             .AddExport();
 
-        //services.AddRazorComponents()
+        // services.AddRazorComponents()
         //  .AddInteractiveServerComponents();
     }
 
@@ -147,7 +148,7 @@ public class Startup(IConfiguration configuration)
 
             endpoints.MapFallbackToFile("index.html");
 
-            //endpoints.MapRazorComponents<App>()
+            // endpoints.MapRazorComponents<App>()
             //  .AddInteractiveServerRenderMode();
         });
 
