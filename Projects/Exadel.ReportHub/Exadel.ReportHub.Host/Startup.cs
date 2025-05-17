@@ -134,7 +134,7 @@ public class Startup(IConfiguration configuration)
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
-        //app.UseAntiforgery();
+        // app.UseAntiforgery();
 
         app.UseIdentityServer();
 
