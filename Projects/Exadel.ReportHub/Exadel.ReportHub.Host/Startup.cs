@@ -112,9 +112,6 @@ public class Startup(IConfiguration configuration)
             .AddHangfire()
             .AddManagers()
             .AddExport();
-
-        // services.AddRazorComponents()
-        // .AddInteractiveServerComponents();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
@@ -133,8 +130,6 @@ public class Startup(IConfiguration configuration)
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 
-        // app.UseAntiforgery();
-
         app.UseIdentityServer();
 
         app.UseHttpsRedirection();
@@ -146,9 +141,6 @@ public class Startup(IConfiguration configuration)
             endpoints.MapControllers();
 
             endpoints.MapFallbackToFile("index.html");
-
-            // endpoints.MapRazorComponents<App>()
-            // .AddInteractiveServerRenderMode();
         });
 
         app.UseHangfireDashboard();
