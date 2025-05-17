@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	  <DisablePublishAndCopyStaticWebAssets>true</DisablePublishAndCopyStaticWebAssets>
+	<StaticWebAssetBasePath>_content/Exadel.ReportHub.BlazorAssembly</StaticWebAssetBasePath>
   </PropertyGroup>
 
   <ItemGroup>
