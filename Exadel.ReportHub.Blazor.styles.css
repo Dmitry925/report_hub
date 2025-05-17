@@ -1,4 +1,4 @@
-/* _content/Exadel.ReportHub.Blazor/Components/Layout/MainLayout.razor.rz.scp.css */
+/* /Components/Layout/MainLayout.razor.rz.scp.css */
 .page[b-ewbn7baq1d] {
     position: relative;
     display: flex;
@@ -95,7 +95,7 @@ main[b-ewbn7baq1d] {
         right: 0.75rem;
         top: 0.5rem;
     }
-/* _content/Exadel.ReportHub.Blazor/Components/Layout/NavMenu.razor.rz.scp.css */
+/* /Components/Layout/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-557hgq94i7] {
     appearance: none;
     cursor: pointer;
